@@ -1,0 +1,68 @@
+<h1>Photo Details</h1>
+
+<form action="/modify_photo/<%= @photo.id%>" >
+  <dt>Image</dt>
+    <dd><img src= "<%= @photo.image%>"></dd>
+
+  <dt>Caption</dt>
+    <dd><p><%= @photo.caption%><p></dd>
+
+  <dt>Owner</dt>
+    <dd><%= @photo.poster.username%></dd>
+
+  <dt>Posted</dt>
+    <dd><%= @photo.created_at%></dd>
+
+  <dt>Edit photo</dt>
+    <dd>
+      <label for="browser_image2">Image</label>
+      <input id="browser_image2" name="entered_image2" type="text" value="<%= @photo.image%>">
+
+      <label for="browser_caption2">Caption</label>
+      <textarea id="browser_caption2" name="entered_caption2" type="text"><%= @photo.caption%></textarea>
+
+      <button>Update photo</button>
+    </dd>
+
+  <dt>Delete photo</dt>
+  <dd><a href="/delete_photo/<%= @photo.id%>">Delete this photo</a></dd>
+</form>
+
+<h2>Comments</h2>
+
+<hr>
+<%= @photo.comments%> <br>
+<%= @photo.id%><br>
+<hr>
+
+<table>
+  <tr>
+    <th>Commenter</th>
+    <th>Comment</th>
+    <th>Posted</th>
+  <tr>
+
+  <% @photo.comments.order({:created_at => :desc}).each do |comment|%>
+  <tr>
+    <td><%= comment.commenter.username%></td>
+    <td><%= comment.body%></td>
+    <td><%= comment.created_at%></td>
+  <tr>
+  <% end%>
+</table>
+
+<form action="/insert_comment" method="post">
+  <h3>Add a new comment</h3>
+    
+  <label for="browser_photoID">Photo ID</label>
+  <input id="browser_photoID" name="entered_photoID" type="text" value="<%=@photo.id%>">
+
+  <label for="browser_author">Author ID</label>
+  <input id="browser_author" name="entered_authorID" type="text" placeholder="Enter a URL for the image...">
+
+  <label for="browser_comment">Comment</label>
+  <textarea id="browser_comment" name="entered_comment" type="text" placeholder="Enter a comment..."></textarea>
+
+  <button>Add comment</button>
+    
+</form>
